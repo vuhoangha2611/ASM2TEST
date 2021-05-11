@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Product</title>
+    <style>
+        table,
+        th,
+        td {
+            border-collapse: collapse;
+        }
+
+        .header {
+            background-color: #afa04c;
+            color: #f2f2f2;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .footer {
+            background-color: #787879;
+            color: #f2f2f2;
+            padding: 5px;
+            text-align: center;
+        }
+
+        .topnav {
+            overflow: hidden;
+            background-color: #787879;
+            text-align: center;
+
+        }
+
+        /* Định dạng link điều hướng */
+        .topnav a {
+            display: inline-block;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 40px;
+            text-decoration: none;
+        }
+
+        /* Thay đổi màu liên kết khi di chuột qua */
+        .topnav a:hover {
+            background-color: #afa04c;
+            color: white;
+            font-weight: bold
+        }
+
+        body {
+            background-color: rgb(255, 255, 255);
+        }
+    </style>
+</head>
+
+<body align="center">
+
+<!-- Messenger Plugin chat Code -->
+    <div id="fb-root"></div>
+      <script>
+        window.fbAsyncInit = function() {
+          FB.init({
+            xfbml            : true,
+            version          : 'v10.0'
+          });
+        };
+
+        (function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+      </script>
+
+      <!-- Your Plugin chat code -->
+      <div class="fb-customerchat"
+        attribution="page_inbox"
+        page_id="635854767035830">
+      </div>
+    <div class="header">
+        <h1>Management of ATN toy products </h1>
+    </div>
+
+    <div class="topnav">
+        <a href="/.">Home</a>
+        <a href="/insert">New Product</a>
+        <a href="/insert">About</a>
+    </div>
+      <marquee id="marq" scrollamount="10" direction="right" loop="100" scrolldelay="0" behavior="alternate" onmouseover="this.stop()"
+        onmouseout="this.start()"> 
+        {{!-- slide - alternate - scroll --}}
+        <img src="https://chicco.com.vn/wp-content/uploads/2019/07/do-choi-mo-hinh-xe-vespa.jpg"width="200px" />
+         <img src="https://homegift.vn/503-large_default/do-choi-toystory-buzz-lightyear.jpg"width="200px" />
+        <img src="https://chicco.com.vn/wp-content/uploads/2019/07/do-choi-mo-hinh-xe-vespa-0.jpg"width="200px" />
+    </marquee>
+
+    <form action="/search" method="post">Name
+        <input type="text" name="txtName" />
+        <input type="submit" value="Search">
+    </form>
+    <br>
+    <br>
+
+    <Table border="2" align="center">
+        <tr>
+            <th>Name Product</th>
+            <th>Price</th>
+            <th>Modify</th>
+        </tr>
+        {{#each model}}
+        <tr align="center" height="150">
+            <td width="200"> {{name}} </td>
+            <td width="200"> {{price}} </td>
+            <td width="200">
+                <a href="/delete?id={{_id}}" style="text-decoration: none" onclick="abc()">
+                    <i class="material-icons">delete</i>
+                    Delete
+                </a>
+                 <script>
+            function abc(){
+                confirm("Are you sure you want to delete this product???")
+            }
+        </script>
+    
+                <a href="/edit?id={{_id}}" style="padding-left: 50px; text-decoration: none">
+                    <i class="material-icons">edit</i>
+                    Edit
+                </a>
+                
+            </td>
+            {{/each}}
+        </tr>
+    </Table>
+
+    <div class="footer">
+        <p>Copyright © 2021 by ATNtoyProducts.com™ . All Rights Reserved.</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Product</title>
+    <style>
+        .header {
+            background-color: #afa04c;
+            color: #f2f2f2;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .footer {
+            background-color: #787879;
+            color: #f2f2f2;
+            padding: 5px;
+            text-align: center;
+        }
+
+        .topnav {
+            overflow: hidden;
+            background-color: #787879;
+        }
+
+        /* Định dạng link điều hướng */
+        .topnav a { 
+            display: inline-block;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 40px;
+            text-decoration: none;
+        }
+
+        /* Thay đổi màu liên kết khi di chuột qua */
+        .topnav a:hover {
+            background-color: #afa04c;
+            color: white;
+            font-weight: bold
+        }
+    </style>
+</head>
+
+<body align="center">
+    <div class="header">
+        <h1>Edit Product for ATN Toy</h1>
+    </div>
+    <div class="topnav">
+        <a href="/.">Home</a>
+        <a href="/insert">New Product</a>
+        <a href="/insert">About</a>
+    </div>
+      <marquee id="marq" scrollamount="10" direction="right" loop="100" scrolldelay="0" behavior="alternate" onmouseover="this.stop()"
+        onmouseout="this.start()"> 
+        {{!-- slide - alternate - scroll --}}
+        <img src="https://chicco.com.vn/wp-content/uploads/2019/07/do-choi-mo-hinh-xe-vespa.jpg"width="200px" />
+         <img src="https://homegift.vn/503-large_default/do-choi-toystory-buzz-lightyear.jpg"width="200px" />
+        <img src="https://chicco.com.vn/wp-content/uploads/2019/07/do-choi-mo-hinh-xe-vespa-0.jpg"width="200px" />
+    </marquee>
+    <form action="/update" method="post">
+        <input type="hidden" name="txtId" value="{{product._id}}">
+        Name <input type="text" name="txtName" value="{{product.name}}" />
+        <br>
+        Price <input type="text" name="txtPrice" value="{{product.price}}" />
+        <br>
+        <input type="submit" value="Update" onclick="abc()">
+        <script>
+            function abc(){
+                alert("Bạn đã Update thành công")
+            }
+        </script>
+    </form>
+    <br><br>
+    <div class="footer">
+        <p>Copyright © 2021 by ATNtoyProducts.com™ . All Rights Reserved.</p>
+    </div>
+
+</body>
+
+</html>
