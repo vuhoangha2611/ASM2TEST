@@ -81,28 +81,42 @@ app.get('/insert', (req, res) => {
     res.render('newProduct')
 })
 
+// app.post('/doInsert', async (req, res) => {
+//     const validRegEx = /^[^\\\/&]*$/
+//     var nameInput = req.body.txtName;
+//     if (nameInput.length < 6 || nameInput.match(validRegEx)) {
+//         return res.status(500).send({ message: "ban nhap loi" })
+//         // res.render('newProduct', {
+//         //     alert: "ban nhap loi"
+//         // })
+//         // return;
+//     }
+//     var priceInput = req.body.txtPrice;
+//     var newProduct = { name: nameInput, price: priceInput };
+
+//     let client = await MongoClient.connect(url);
+//     let dbo = client.db("Test123");
+//     await dbo.collection("product").insertOne(newProduct);
+//     res.redirect('/')
+// })
+
 app.post('/doInsert', async (req, res) => {
-    const validRegEx = /^[^\\\/&]*$/
     var nameInput = req.body.txtName;
-    if (nameInput.length < 6 || nameInput.match(validRegEx)) {
-        // return res.status(500).send({ message: "ban nhap loi" })
-        res.render('newProduct', {
-            alert: "ban nhap loi"
-        })
-        return;
+    if (nameInput.length < 6||!nameInput.includes('*')) {  // nếu có dấu "!" thì sẽ trong includes sẽ trả về true, nếu bỏ "!" sẽ trả về fail
+        return res.status(500).send({ message: "ban nhap loi" })
     }
+    // if(nameInput.length < 5 || isNaN){
+    //     res.render('newProduct',{error: 'Name must be more than 5 character and no number'})
+    // } 
+
     var priceInput = req.body.txtPrice;
     var newProduct = { name: nameInput, price: priceInput };
-
     let client = await MongoClient.connect(url);
     let dbo = client.db("Test123");
     await dbo.collection("product").insertOne(newProduct);
     res.redirect('/')
 })
+
 const PORT = process.env.PORT || 3000
 app.listen(PORT);
 console.log('server is running at 3000')
-
-
-
-
