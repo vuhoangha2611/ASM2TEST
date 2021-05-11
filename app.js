@@ -1,3 +1,4 @@
+
 var express = require('express')
 var hbs = require('hbs')
 
@@ -15,7 +16,8 @@ app.post('/update', async (req, res) => {
     let id = req.body.txtId;
     let nameInput = req.body.txtName;
     let priceInput = req.body.txtPrice;
-    let newValues = { $set: { name: nameInput, price: priceInput } };
+    let colorInput = req.body.txtColor;
+    let newValues = { $set: { name: nameInput, price: priceInput, color: colorInput } };
     var ObjectID = require('mongodb').ObjectID;
     let condition = { "_id": ObjectID(id) };
     let client = await MongoClient.connect(url);
@@ -34,6 +36,7 @@ app.get('/edit', async (req, res) => {
     let productToEdit = await dbo.collection("product").findOne(condition);
     res.render('edit', { product: productToEdit })
 
+
 })
 
 app.get('/delete', async (req, res) => {
@@ -48,16 +51,25 @@ app.get('/delete', async (req, res) => {
     res.redirect('/')
 })
 
-app.post('/search', async (req, res) => { 
+app.post('/search', async (req, res) => {
+    let searchCondition;
+    let results;
     let client = await MongoClient.connect(url);
     let dbo = client.db("Test123");
     let nameInput = req.body.txtName;
-    let searchCondition = new RegExp(nameInput, 'i')
-    let results = await dbo.collection("product").find({ name: searchCondition }).toArray(); 
+    let priceInput = req.body.txtPrice;
+    if (nameInput) {
+        searchCondition = new RegExp(nameInput, 'i')
+        results = await dbo.collection("product").find({ name: searchCondition }).toArray();
+    }
+    if (priceInput) {
+        searchCondition = new RegExp(priceInput, 'i')
+        results = await dbo.collection("product").find({ price: searchCondition }).toArray();
+    }
     res.render('index', { model: results })
 })
 
-app.get('/', async (req, res) => { 
+app.get('/', async (req, res) => {
     let client = await MongoClient.connect(url);
     let dbo = client.db("Test123");
     let results = await dbo.collection("product").find({}).toArray();
@@ -69,18 +81,26 @@ app.get('/insert', (req, res) => {
     res.render('newProduct')
 })
 
-app.post('/doInsert', async (req, res) => { 
+app.post('/doInsert', async (req, res) => {
+    const validRegEx = /^[^\\\/&]*$/
     var nameInput = req.body.txtName;
+    if (nameInput.length < 6 || nameInput.match(validRegEx)) {
+        // return res.status(500).send({ message: "ban nhap loi" })
+        res.render('newProduct', {
+            alert: "ban nhap loi"
+        })
+        return;
+    }
     var priceInput = req.body.txtPrice;
     var newProduct = { name: nameInput, price: priceInput };
 
-    let client = await MongoClient.connect(url); 
-    let dbo = client.db("Test123"); 
+    let client = await MongoClient.connect(url);
+    let dbo = client.db("Test123");
     await dbo.collection("product").insertOne(newProduct);
     res.redirect('/')
 })
-const PORT = process.env.PORT||3000 
-app.listen(PORT); 
+const PORT = process.env.PORT || 3000
+app.listen(PORT);
 console.log('server is running at 3000')
 
 
