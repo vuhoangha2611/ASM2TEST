@@ -102,15 +102,16 @@ app.get('/insert', (req, res) => {
 
 app.post('/doInsert', async (req, res) => {
     var nameInput = req.body.txtName;
-    if (nameInput.length < 6||!nameInput.includes('*')) {  // nếu có dấu "!" thì sẽ trong includes sẽ trả về true, nếu bỏ "!" sẽ trả về fail
-        return res.status(500).send({ message: "ban nhap loi" })
-    }
-    // if(nameInput.length < 5 || isNaN){
-    //     res.render('newProduct',{error: 'Name must be more than 5 character and no number'})
-    // } 
+    // if (nameInput.length < 6||!nameInput.includes('*')) {  // nếu có dấu "!" thì sẽ trong includes sẽ trả về true, nếu bỏ "!" sẽ trả về fail
+    //     return res.status(500).send({ message: "ban nhap loi" })
+    // }
+    if(nameInput.length < 5){
+        res.render('newProduct',{error: 'Name must be more than 5 character and no number'})
+    } 
 
     var priceInput = req.body.txtPrice;
-    var newProduct = { name: nameInput, price: priceInput };
+    var colorInput = req.body.txtColor;
+    var newProduct = { name: nameInput, price: priceInput, color: colorInput };
     let client = await MongoClient.connect(url);
     let dbo = client.db("Test123");
     await dbo.collection("product").insertOne(newProduct);
